@@ -20,15 +20,28 @@
     <li><a href="#contact">Контакты</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Связаться</a>
-  <div class="burger" id="burger"><span></span><span></span><span></span></div>
+  <button class="burger" id="burger" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
-<!-- MOBILE MENU -->
-<div class="mobile-menu" id="mobileMenu">
-  <a href="#services" onclick="closeMobile()">Услуги</a>
-  <a href="#portfolio" onclick="closeMobile()">Проекты</a>
-  <a href="#contact" onclick="closeMobile()">Контакты</a>
-</div>
+<!-- DRAWER OVERLAY -->
+<div class="drawer-overlay" id="drawerOverlay"></div>
+
+<!-- MOBILE DRAWER -->
+<aside class="mobile-drawer" id="mobileDrawer">
+  <div class="drawer-header">
+    <a href="#" class="drawer-logo">БОЙКО И КО</a>
+    <button class="drawer-close" id="drawerClose" aria-label="Закрыть">✕</button>
+  </div>
+
+  <div class="drawer-footer">
+    <a href="#services" class="drawer-cta drawer-link">Услуги</a>
+    <a href="#portfolio" class="drawer-cta drawer-link">Наши проекты</a>
+    <a href="#contact" class="drawer-cta drawer-link">Связаться с нами</a>
+  </div>
+
+</aside>
 
 <!-- HERO -->
 <section id="hero">
@@ -43,8 +56,8 @@
   </div>
   <div class="hero-right">
     <div class="hero-image-grid">
-      <div class="hero-img" style="background-image:url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=900&q=80')"></div>
-      <div class="hero-img" style="background-image:url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=900&q=80')"></div>
+      <div class="hero-img" style="background-image:url(img/startimg/1.jpeg)"></div>
+      <div class="hero-img" style="background-image:url(img/startimg/2.jpeg)"></div>
     </div>
     <div class="hero-overlay"></div>
     <div class="hero-stats">
@@ -83,52 +96,36 @@
     <h2 class="section-title">Наши услуги</h2>
   </div>
   <div class="services-grid">
-
     <div class="service-card reveal">
       <span class="service-num">01</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 32 32"><rect x="2" y="4" width="28" height="4"/><line x1="2" y1="8" x2="2" y2="28"/><line x1="30" y1="8" x2="30" y2="28"/><line x1="2" y1="28" x2="30" y2="28"/><line x1="10" y1="8" x2="10" y2="28"/><line x1="22" y1="8" x2="22" y2="28"/></svg>
-      </div>
+      <div class="service-icon"><svg viewBox="0 0 32 32"><rect x="2" y="4" width="28" height="4"/><line x1="2" y1="8" x2="2" y2="28"/><line x1="30" y1="8" x2="30" y2="28"/><line x1="2" y1="28" x2="30" y2="28"/><line x1="10" y1="8" x2="10" y2="28"/><line x1="22" y1="8" x2="22" y2="28"/></svg></div>
       <h3 class="service-name">Гипсокартонные работы</h3>
       <p class="service-desc">Потолки, стены, перегородки, арки, колонны. Установка теневого профиля, монтаж встраиваемых треков, фрезировка гипсокартона любой сложности.</p>
     </div>
-
     <div class="service-card reveal">
       <span class="service-num">02</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M10 16 Q13 11 16 16 Q19 21 22 16"/><line x1="16" y1="4" x2="16" y2="8"/><line x1="16" y1="24" x2="16" y2="28"/><line x1="4" y1="16" x2="8" y2="16"/><line x1="24" y1="16" x2="28" y2="16"/></svg>
-      </div>
+      <div class="service-icon"><svg viewBox="0 0 32 32"><circle cx="16" cy="16" r="12"/><path d="M10 16 Q13 11 16 16 Q19 21 22 16"/><line x1="16" y1="4" x2="16" y2="8"/><line x1="16" y1="24" x2="16" y2="28"/><line x1="4" y1="16" x2="8" y2="16"/><line x1="24" y1="16" x2="28" y2="16"/></svg></div>
       <h3 class="service-name">Профессиональная шумоизоляция</h3>
       <p class="service-desc">Монтаж шумоизоляции для квартир, домашних кинотеатров и студий звукозаписи. Эффективное снижение шума с гарантией результата.</p>
     </div>
-
     <div class="service-card reveal">
       <span class="service-num">03</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 32 32"><rect x="2" y="6" width="28" height="20"/><line x1="2" y1="12" x2="30" y2="12"/><line x1="2" y1="18" x2="30" y2="18"/><line x1="10" y1="6" x2="10" y2="26"/><line x1="22" y1="6" x2="22" y2="26"/></svg>
-      </div>
+      <div class="service-icon"><svg viewBox="0 0 32 32"><rect x="2" y="6" width="28" height="20"/><line x1="2" y1="12" x2="30" y2="12"/><line x1="2" y1="18" x2="30" y2="18"/><line x1="10" y1="6" x2="10" y2="26"/><line x1="22" y1="6" x2="22" y2="26"/></svg></div>
       <h3 class="service-name">Монтаж Armstrong</h3>
       <p class="service-desc">Установка подвесных потолочных систем Armstrong для офисов, торговых и коммерческих помещений. Быстро, чисто, с идеальной геометрией.</p>
     </div>
-
     <div class="service-card reveal">
       <span class="service-num">04</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="1"/><line x1="4" y1="13" x2="28" y2="13"/><line x1="4" y1="22" x2="28" y2="22"/><line x1="13" y1="4" x2="13" y2="28"/></svg>
-      </div>
+      <div class="service-icon"><svg viewBox="0 0 32 32"><rect x="4" y="4" width="24" height="24" rx="1"/><line x1="4" y1="13" x2="28" y2="13"/><line x1="4" y1="22" x2="28" y2="22"/><line x1="13" y1="4" x2="13" y2="28"/></svg></div>
       <h3 class="service-name">Монтаж Криплат</h3>
       <p class="service-desc">Профессиональный монтаж систем Криплат — модульных потолков и облицовочных панелей для современных интерьеров.</p>
     </div>
-
     <div class="service-card reveal">
       <span class="service-num">05</span>
-      <div class="service-icon">
-        <svg viewBox="0 0 32 32"><rect x="2" y="8" width="28" height="16" rx="1"/><line x1="8" y1="8" x2="8" y2="24"/><line x1="16" y1="8" x2="16" y2="24"/><line x1="24" y1="8" x2="24" y2="24"/><line x1="2" y1="16" x2="30" y2="16"/></svg>
-      </div>
+      <div class="service-icon"><svg viewBox="0 0 32 32"><rect x="2" y="8" width="28" height="16" rx="1"/><line x1="8" y1="8" x2="8" y2="24"/><line x1="16" y1="8" x2="16" y2="24"/><line x1="24" y1="8" x2="24" y2="24"/><line x1="2" y1="16" x2="30" y2="16"/></svg></div>
       <h3 class="service-name">Декоративные и акустические панели</h3>
       <p class="service-desc">Монтаж декоративных и акустических панелей для выразительного дизайна и улучшения звуковых характеристик помещения.</p>
     </div>
-
   </div>
 </section>
 
@@ -140,24 +137,24 @@
   </div>
   <div class="portfolio-grid">
     <div class="portfolio-item reveal">
-      <div class="portfolio-bg" style="background-image:url('https://images.unsplash.com/photo-1562663474-6cbb3eaa4d14?w=1000&q=80')"></div>
-      <div class="portfolio-info"><h3>Офисный центр «Балтия»</h3><span>Гипсокартон · Armstrong · 4200 м²</span></div>
+      <div class="portfolio-bg" style="background-image:url(img/portfolio/1.webp)"></div>
+      <div class="portfolio-info"><h3>Школа Номер 30</h3><span>Заводская ул., 21, п.г.т. Яблоновский</span></div>
     </div>
     <div class="portfolio-item reveal">
-      <div class="portfolio-bg" style="background-image:url('https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80')"></div>
-      <div class="portfolio-info"><h3>Квартира «Горизонт»</h3><span>Шумоизоляция · Гипсокартон · 120 м²</span></div>
+      <div class="portfolio-bg" style="background-image:url(img/portfolio/2.webp)"></div>
+      <div class="portfolio-info"><h3>Стоматологическая клиника «Феи улыбки»</h3><span>Гамбургская улица, 16, Краснодар</span></div>
     </div>
     <div class="portfolio-item reveal">
-      <div class="portfolio-bg" style="background-image:url('https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80')"></div>
-      <div class="portfolio-info"><h3>Студия звукозаписи</h3><span>Шумоизоляция · Акустические панели</span></div>
+      <div class="portfolio-bg" style="background-image:url(img/portfolio/3.webp)"></div>
+      <div class="portfolio-info"><h3>Магазин «Ekonika»</h3><span>ТРК Галерея Краснодар, этаж 1</span></div>
     </div>
     <div class="portfolio-item reveal">
-      <div class="portfolio-bg" style="background-image:url('https://images.unsplash.com/photo-1604014237800-1c9102c219da?w=800&q=80')"></div>
-      <div class="portfolio-info"><h3>Торговый центр «Юг»</h3><span>Криплат · Armstrong · 2100 м²</span></div>
+      <div class="portfolio-bg" style="background-image:url(img/portfolio/4.jpg)"></div>
+      <div class="portfolio-info"><h3>Установка панелей и Armstrong</h3><span>Краснодар</span></div>
     </div>
     <div class="portfolio-item reveal">
-      <div class="portfolio-bg" style="background-image:url('https://images.unsplash.com/photo-1631679706909-1844bbd07221?w=800&q=80')"></div>
-      <div class="portfolio-info"><h3>Домашний кинотеатр</h3><span>Шумоизоляция · Декор. панели</span></div>
+      <div class="portfolio-bg" style="background-image:url(img/portfolio/5.jpg)"></div>
+      <div class="portfolio-info"><h3>Объект 2025</h3><span>Краснодарский край</span></div>
     </div>
   </div>
 </section>
@@ -168,7 +165,6 @@
     <h2>Свяжитесь <em>с нами</em></h2>
     <p>Готовы обсудить ваш проект — позвоните или напишите любым удобным способом. Отвечаем быстро.</p>
     <div class="contact-cards">
-
       <a class="contact-card" href="tel:+79996335483">
         <div class="contact-card-icon">
           <svg viewBox="0 0 26 26" fill="none" stroke="var(--gold)" stroke-width="1.4">
@@ -179,7 +175,6 @@
         <span class="contact-card-value">+7 (999) 633-54-83</span>
         <span class="contact-card-sub">Пн–Пт 9:00–19:00</span>
       </a>
-
       <a class="contact-card" href="https://t.me/+79996335483" target="_blank" rel="noopener">
         <div class="contact-card-icon">
           <svg viewBox="0 0 26 26" fill="none" stroke="var(--gold)" stroke-width="1.4">
@@ -191,8 +186,7 @@
         <span class="contact-card-value">Написать</span>
         <span class="contact-card-sub">+7 (999) 633-54-83</span>
       </a>
-
-      <a class="contact-card" href="https://wa.me/+79996335483" target="_blank" rel="noopener">
+      <a class="contact-card" href="https://wa.me/79996335483" target="_blank" rel="noopener">
         <div class="contact-card-icon">
           <svg viewBox="0 0 26 26" fill="none" stroke="var(--gold)" stroke-width="1.4">
             <circle cx="13" cy="13" r="11"/>
@@ -203,7 +197,6 @@
         <span class="contact-card-value">Написать</span>
         <span class="contact-card-sub">+7 (918) 015-16-37</span>
       </a>
-
     </div>
   </div>
 </section>
