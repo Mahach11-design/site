@@ -15,7 +15,6 @@ function openDrawer() {
   document.body.style.overflow = 'hidden';
   burger.classList.add('active');
 }
-
 function closeDrawer() {
   drawer.classList.remove('open');
   overlay.classList.remove('visible');
@@ -26,79 +25,95 @@ function closeDrawer() {
 burger.addEventListener('click', () => {
   drawer.classList.contains('open') ? closeDrawer() : openDrawer();
 });
-
 overlay.addEventListener('click', closeDrawer);
 drawerClose.addEventListener('click', closeDrawer);
+document.querySelectorAll('.drawer-link').forEach(l => l.addEventListener('click', closeDrawer));
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeDrawer(); });
 
-document.querySelectorAll('.drawer-link').forEach(link => {
-  link.addEventListener('click', closeDrawer);
-});
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') closeDrawer();
-});
-
-// ── REVEAL ON SCROLL ──
+// ── REVEAL (заголовки, секции) — одноразовый ──
 const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
     if (entry.isIntersecting) {
-      const el = entry.target;
-      setTimeout(() => {
-        el.classList.add('visible');
-      }, i * 80);
-      revealObserver.unobserve(el);
+      setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      revealObserver.unobserve(entry.target);
     }
   });
-}, {
-  threshold: 0.10,
-  rootMargin: '0px 0px -40px 0px'
-});
+}, { threshold: 0.10, rootMargin: '0px 0px -40px 0px' });
 
-document.querySelectorAll('.reveal').forEach(el => {
-  revealObserver.observe(el);
-});
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-// ── SERVICE CARDS: каскадное появление через Observer ──
+
+// ── MOBILE ANIMATIONS ──────────────────────────────
 if (window.innerWidth <= 1024) {
 
+  // Отслеживаем направление скролла
+  let lastScrollY = window.scrollY;
+  let scrollDir = 'down';
+  window.addEventListener('scroll', () => {
+    scrollDir = window.scrollY > lastScrollY ? 'down' : 'up';
+    lastScrollY = window.scrollY;
+  }, { passive: true });
+
+
+  // ── SERVICE CARDS — двунаправленная ──
+  const cards = Array.from(document.querySelectorAll('.service-card'));
+
   const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry, i) => {
+    entries.forEach(entry => {
+      const card = entry.target;
+      const idx  = cards.indexOf(card);
+
       if (entry.isIntersecting) {
-        const card = entry.target;
-        // каждая следующая карточка появляется с небольшой задержкой
-        const idx = Array.from(document.querySelectorAll('.service-card')).indexOf(card);
-        setTimeout(() => {
-          card.classList.add('card-visible');
-        }, idx * 90);
-        cardObserver.unobserve(card);
+        // убираем класс ухода, добавляем видимость с каскадом
+        card.classList.remove('card-exit');
+        setTimeout(() => card.classList.add('card-visible'), idx * 75);
+
+      } else {
+        // карточка ушла — смотрим направление
+        card.classList.remove('card-visible');
+        if (scrollDir === 'up') {
+          // уходит вверх — плавный exit
+          card.classList.add('card-exit');
+        }
+        // вниз — просто исчезает (вернётся когда снова появится)
       }
     });
   }, {
-    threshold: 0.15,
-    rootMargin: '0px 0px -30px 0px'
+    // срабатывает когда карточка видна хотя бы на 20%
+    threshold: [0, 0.2],
   });
 
-  document.querySelectorAll('.service-card').forEach(card => {
-    cardObserver.observe(card);
-  });
-}
+  cards.forEach(card => cardObserver.observe(card));
 
-// ── PORTFOLIO ITEMS: фото + текст через Observer ──
-if (window.innerWidth <= 1024) {
+
+  // ── PORTFOLIO ITEMS — двунаправленная ──
+  const portfolioItems = Array.from(document.querySelectorAll('.portfolio-item'));
 
   const portfolioObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
+      const item = entry.target;
+
       if (entry.isIntersecting) {
-        entry.target.classList.add('item-visible');
-        portfolioObserver.unobserve(entry.target);
+        item.classList.remove('item-exit');
+        // небольшая задержка чтобы браузер успел убрать exit-класс
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            item.classList.add('item-visible');
+          });
+        });
+
+      } else {
+        item.classList.remove('item-visible');
+        if (scrollDir === 'up') {
+          item.classList.add('item-exit');
+        }
       }
     });
   }, {
-    threshold: 0.18,
-    rootMargin: '0px 0px -20px 0px'
+    // два порога: 0 — ушёл, 0.22 — показался достаточно
+    threshold: [0, 0.22],
   });
 
-  document.querySelectorAll('.portfolio-item').forEach(item => {
-    portfolioObserver.observe(item);
-  });
+  portfolioItems.forEach(item => portfolioObserver.observe(item));
+
 }
