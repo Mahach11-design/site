@@ -262,7 +262,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   #hero { grid-template-columns: 1fr; min-height: auto; }
   .hero-left { padding: 110px 40px 56px; }
   .hero-right { height: 60vw; min-height: 320px; max-height: 520px; }
-  .hero-img { background-position: center 35%; }
+  .hero-img { background-position: center 100%; }
 
   .about-strip { grid-template-columns: 1fr; gap: 28px; padding: 60px 40px; }
   .scale-banner { padding: 36px 40px; gap: 28px; }
@@ -293,7 +293,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
   .btn-primary { width: 100%; text-align: center; }
   .hero-right { height: 75vw; min-height: 260px; max-height: 420px; }
-  .hero-img { background-position: center center; }
+  .hero-img { background-position: center 120%; }
   .hero-stats { flex-wrap: nowrap; }
   .hero-stat { padding: clamp(8px, 2.5vw, 14px) clamp(4px, 1.8vw, 10px); }
   .hero-stat-num { font-size: clamp(14px, 4.5vw, 22px); margin-bottom: 2px; }
@@ -357,7 +357,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   }
 
   .hero-img {
-    background-position: center center;
+    background-position: center 120%;
     transform: scale(1.06);
     filter: brightness(0.9);
     transition: transform 7s ease-out, filter 2s ease;
