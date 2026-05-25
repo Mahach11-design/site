@@ -4,10 +4,10 @@ window.addEventListener('scroll', () => {
 });
 
 // ── MOBILE DRAWER ──
-const burger       = document.getElementById('burger');
-const drawer       = document.getElementById('mobileDrawer');
-const overlay      = document.getElementById('drawerOverlay');
-const drawerClose  = document.getElementById('drawerClose');
+const burger      = document.getElementById('burger');
+const drawer      = document.getElementById('mobileDrawer');
+const overlay     = document.getElementById('drawerOverlay');
+const drawerClose = document.getElementById('drawerClose');
 
 function openDrawer() {
   drawer.classList.add('open');
@@ -39,166 +39,66 @@ document.addEventListener('keydown', e => {
 });
 
 // ── REVEAL ON SCROLL ──
-const observer = new IntersectionObserver((entries) => {
-
+const revealObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, i) => {
-
     if (entry.isIntersecting) {
-
       const el = entry.target;
-
       setTimeout(() => {
         el.classList.add('visible');
-      }, i * 120);
-
-      observer.unobserve(el);
+      }, i * 80);
+      revealObserver.unobserve(el);
     }
-
   });
-
 }, {
-  threshold: 0.12,
+  threshold: 0.10,
   rootMargin: '0px 0px -40px 0px'
 });
 
 document.querySelectorAll('.reveal').forEach(el => {
-  observer.observe(el);
+  revealObserver.observe(el);
 });
 
-
-
-// ── MOBILE ONLY: PORTFOLIO SCROLL ANIMATIONS ──
-
+// ── SERVICE CARDS: каскадное появление через Observer ──
 if (window.innerWidth <= 1024) {
 
-  const portfolioItems =
-    document.querySelectorAll('.portfolio-item');
-
-  function updatePortfolioAnimations() {
-
-    const windowHeight = window.innerHeight;
-
-    portfolioItems.forEach(item => {
-
-      const rect = item.getBoundingClientRect();
-
-      let progress =
-        1 - ((rect.top + rect.height * 0.2) / windowHeight);
-
-      progress =
-        Math.max(0, Math.min(progress, 1));
-
-      const eased =
-        progress * progress * (3 - 2 * progress);
-
-      const bg =
-        item.querySelector('.portfolio-bg');
-
-      const info =
-        item.querySelector('.portfolio-info');
-
-      if (bg) {
-
-        const scale =
-          1 + (eased * 0.08);
-
-        const opacity =
-          0.72 + (eased * 0.28);
-
-        bg.style.transform =
-          `scale(${scale})`;
-
-        bg.style.opacity =
-          opacity;
-
-        bg.style.filter =
-          `brightness(${0.72 + eased * 0.28})`;
+  const cardObserver = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        const card = entry.target;
+        // каждая следующая карточка появляется с небольшой задержкой
+        const idx = Array.from(document.querySelectorAll('.service-card')).indexOf(card);
+        setTimeout(() => {
+          card.classList.add('card-visible');
+        }, idx * 90);
+        cardObserver.unobserve(card);
       }
-
-      if (info) {
-
-        const translate =
-          60 - (eased * 60);
-
-        info.style.transform =
-          `translateY(${translate}px)`;
-
-        info.style.opacity =
-          eased;
-      }
-
     });
+  }, {
+    threshold: 0.15,
+    rootMargin: '0px 0px -30px 0px'
+  });
 
-  }
-
-  window.addEventListener(
-    'scroll',
-    updatePortfolioAnimations,
-    { passive: true }
-  );
-
-  updatePortfolioAnimations();
+  document.querySelectorAll('.service-card').forEach(card => {
+    cardObserver.observe(card);
+  });
 }
 
-// ── MOBILE: SERVICE CARD PROGRESS ──
-
+// ── PORTFOLIO ITEMS: фото + текст через Observer ──
 if (window.innerWidth <= 1024) {
 
-  const serviceCards =
-    document.querySelectorAll('.service-card');
-
-  function updateServiceCards() {
-
-    const windowHeight = window.innerHeight;
-
-    serviceCards.forEach(card => {
-
-      const rect = card.getBoundingClientRect();
-
-      let progress =
-        1 - ((rect.top + rect.height * 0.15) / windowHeight);
-
-      progress =
-        Math.max(0, Math.min(progress, 1));
-
-      const eased =
-        progress * progress * (3 - 2 * progress);
-
-      card.style.setProperty(
-        '--progress',
-        eased
-      );
-
-      const translateY =
-        40 - (eased * 40);
-
-      card.style.transform =
-        `translateY(${translateY}px)`;
-
-      card.style.opacity =
-        0.3 + (eased * 0.7);
-
-      const num =
-        card.querySelector('.service-num');
-
-      if (num) {
-
-        num.style.color =
-          `rgba(196,169,109,${eased * 0.12})`;
-
-        num.style.transform =
-          `translateY(${12 - eased * 12}px)`;
+  const portfolioObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('item-visible');
+        portfolioObserver.unobserve(entry.target);
       }
-
     });
+  }, {
+    threshold: 0.18,
+    rootMargin: '0px 0px -20px 0px'
+  });
 
-  }
-
-  window.addEventListener(
-    'scroll',
-    updateServiceCards,
-    { passive: true }
-  );
-
-  updateServiceCards();
+  document.querySelectorAll('.portfolio-item').forEach(item => {
+    portfolioObserver.observe(item);
+  });
 }
