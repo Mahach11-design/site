@@ -235,7 +235,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   #hero { grid-template-columns: 1fr; min-height: auto; }
   .hero-left { padding: 110px 40px 56px; }
   .hero-right { height: 60vw; min-height: 320px; max-height: 520px; }
-  .hero-img { background-position: center 35%; }
+  .hero-img { background-position: center 100%; }
 
   .about-strip { grid-template-columns: 1fr; gap: 28px; padding: 60px 40px; }
   .scale-banner { padding: 36px 40px; gap: 28px; }
@@ -266,7 +266,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
   .btn-primary { width: 100%; text-align: center; }
   .hero-right { height: 75vw; min-height: 260px; max-height: 420px; }
-  .hero-img { background-position: center 40%; }
+  .hero-img { background-position: center 100%; }
   .hero-stat { padding: 14px 10px; }
   .hero-stat-num { font-size: 22px; }
   .hero-stat-label { font-size: 8px; }
@@ -304,4 +304,193 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   .section-title { font-size: 28px; }
   .contact-centered h2 { font-size: 30px; }
   .portfolio-item, .portfolio-item:first-child { height: 58vw; }
+}
+
+/* ═══════════════════════════════════════ */
+/* MOBILE CINEMATIC ANIMATIONS */
+/* ═══════════════════════════════════════ */
+
+@media (max-width: 1024px) {
+
+  /* Общая плавность */
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    overflow-x: hidden;
+  }
+
+  /* Reveal animation */
+  .reveal {
+    opacity: 0;
+    transform: translateY(50px) scale(0.98);
+    transition:
+      opacity 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+
+  /* HERO IMAGE */
+  .hero-img {
+    transition:
+      transform 6s ease-out,
+      filter 1.5s ease;
+    transform: scale(1.08);
+    filter: brightness(0.92);
+  }
+
+  .hero-right:hover .hero-img,
+  .hero-right:active .hero-img {
+    transform: scale(1.12);
+  }
+
+  /* SERVICES */
+  .service-card {
+    transition:
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .service-card.scroll-active {
+    transform: translateY(-10px);
+    box-shadow:
+      0 20px 50px rgba(0,0,0,0.06),
+      0 2px 10px rgba(0,0,0,0.03);
+  }
+
+  .service-card::after {
+    transition: transform 1s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* SERVICE NUMBER */
+  .service-num {
+    transition:
+      color 0.8s ease,
+      transform 1s ease;
+  }
+
+  .service-card.scroll-active .service-num {
+    transform: translateY(-4px);
+  }
+
+  /* PORTFOLIO */
+  .portfolio-item {
+    overflow: hidden;
+  }
+
+  .portfolio-bg {
+    transition:
+      transform 2.2s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 1.2s ease,
+      filter 1.2s ease;
+    transform: scale(1);
+    filter: brightness(0.78);
+    will-change: transform;
+  }
+
+  .portfolio-item.mobile-active .portfolio-bg {
+    transform: scale(1.12);
+    opacity: 1;
+    filter: brightness(0.96);
+  }
+
+  /* PORTFOLIO TEXT */
+  .portfolio-info {
+    transition:
+      transform 1s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 1s ease;
+    transform: translateY(50px);
+    opacity: 0;
+  }
+
+  .portfolio-item.mobile-active .portfolio-info {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .portfolio-info h3 {
+    transition:
+      transform 1s ease,
+      opacity 1s ease;
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  .portfolio-item.mobile-active h3 {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .portfolio-info span {
+    transition:
+      transform 1.2s ease,
+      opacity 1.2s ease;
+    transform: translateY(16px);
+    opacity: 0;
+  }
+
+  .portfolio-item.mobile-active span {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  /* CONTACT CARDS */
+  .contact-card {
+    transition:
+      transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.5s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .contact-card:hover,
+  .contact-card:active {
+    transform: translateY(-8px);
+    box-shadow:
+      0 16px 40px rgba(0,0,0,0.18);
+  }
+
+  /* BUTTONS */
+  .btn-primary {
+    transition:
+      transform 0.5s ease,
+      background 0.4s ease,
+      box-shadow 0.5s ease;
+  }
+
+  .btn-primary:active {
+    transform: scale(0.97);
+  }
+
+  /* SECTION TITLES */
+  .section-title,
+  .about-strip h2,
+  .contact-centered h2 {
+    transition:
+      transform 1.2s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 1.2s ease;
+  }
+
+  /* NAVBAR */
+  nav {
+    transition:
+      background 0.5s ease,
+      backdrop-filter 0.5s ease,
+      padding 0.4s ease;
+  }
+
+  /* SMOOTH IMAGE FEEL */
+  img,
+  .hero-img,
+  .portfolio-bg {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+  }
+
 }
