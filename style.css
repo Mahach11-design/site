@@ -326,7 +326,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
 }
 
 /* ═══════════════════════════════════════ */
-/* MOBILE CINEMATIC ANIMATIONS */
+/* MOBILE CINEMATIC ANIMATIONS            */
 /* ═══════════════════════════════════════ */
 
 @media (max-width: 1024px) {
@@ -339,17 +339,14 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
     overflow-x: hidden;
   }
 
+  /* ── общий reveal ── */
   .reveal {
     opacity: 0;
-    transform: translateY(60px) scale(0.98);
-
+    transform: translateY(48px) scale(0.985);
     transition:
-      opacity 1.4s cubic-bezier(0.22, 1, 0.36, 1),
-      transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
-
-    will-change:
-      transform,
-      opacity;
+      opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity;
   }
 
   .reveal.visible {
@@ -357,88 +354,116 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
     transform: translateY(0) scale(1);
   }
 
+  /* ── hero image ── */
   .hero-img {
     background-position: center center;
+    transform: scale(1.06);
+    filter: brightness(0.9);
+    transition: transform 7s ease-out, filter 2s ease;
+  }
 
+  /* ─────────────────────────────────────
+     SERVICE CARDS — каскад через Observer
+  ───────────────────────────────────── */
+  .service-card {
+    opacity: 0;
+    transform: translateY(36px);
     transition:
-      transform 6s ease-out,
-      filter 1.5s ease;
+      opacity 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      background 0.35s ease;
+    will-change: transform, opacity;
+  }
 
-    transform: scale(1.08);
+  .service-card.card-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
 
+  /* золотая линия снизу появляется вместе с картой */
+  .service-card::after {
+    transform: scaleX(0);
+    transform-origin: left center;
+    transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.3s;
+  }
+
+  .service-card.card-visible::after {
+    transform: scaleX(1);
+  }
+
+  /* номер плавно приплывает */
+  .service-num {
+    transition:
+      transform 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+      color 0.5s ease;
+    transform: translateY(14px);
+    opacity: 0;
+  }
+
+  .service-card.card-visible .service-num {
+    transform: translateY(0);
+    opacity: 1;
+    color: rgba(196, 169, 109, 0.12);
+  }
+
+  /* ─────────────────────────────────────
+     PORTFOLIO — фото + текст
+  ───────────────────────────────────── */
+
+  /* фото: начинает затемнённым и чуть увеличенным */
+  .portfolio-bg {
+    opacity: 0.5;
+    transform: scale(1.06);
+    filter: brightness(0.7);
+    transition:
+      opacity   0.85s cubic-bezier(0.22, 1, 0.36, 1),
+      transform 1.1s  cubic-bezier(0.22, 1, 0.36, 1),
+      filter    0.85s cubic-bezier(0.22, 1, 0.36, 1);
+    will-change: transform, opacity, filter;
+  }
+
+  .portfolio-item.item-visible .portfolio-bg {
+    opacity: 0.88;
+    transform: scale(1);
     filter: brightness(0.92);
   }
 
-  .service-card {
-
-    opacity: 0;
-
-    transform: translateY(40px);
-
-    transition:
-      transform 0.12s linear,
-      opacity 0.12s linear,
-      background 0.4s ease,
-      box-shadow 0.4s ease;
-
-    will-change:
-      transform,
-      opacity;
-  }
-
-  .service-card::after {
-
-    transform:
-      scaleX(var(--progress, 0));
-
-    transform-origin:
-      left center;
-
-    transition:
-      transform 0.08s linear;
-  }
-
-  .service-num {
-
-    transition:
-      transform 0.12s linear,
-      color 0.12s linear;
-
-    will-change:
-      transform,
-      color;
-  }
-
-  .portfolio-bg {
-
-    opacity: 0.72;
-
-    transform: scale(1);
-
-    will-change:
-      transform,
-      opacity,
-      filter;
-
-    transition:
-      transform 0.08s linear,
-      opacity 0.08s linear,
-      filter 0.08s linear;
-  }
-
+  /* текст: выезжает снизу с задержкой после фото */
   .portfolio-info {
-
-    transform: translateY(60px);
-
     opacity: 0;
-
-    will-change:
-      transform,
-      opacity;
-
+    transform: translateY(52px);
     transition:
-      transform 0.08s linear,
-      opacity 0.08s linear;
+      opacity   0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s,
+      transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) 0.25s;
+    will-change: transform, opacity;
+  }
+
+  .portfolio-item.item-visible .portfolio-info {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* отдельные строки внутри .portfolio-info тоже выезжают */
+  .portfolio-info h3 {
+    opacity: 0;
+    transform: translateY(16px);
+    transition:
+      opacity   0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s,
+      transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.4s;
+  }
+
+  .portfolio-info span {
+    opacity: 0;
+    transform: translateY(10px);
+    transition:
+      opacity   0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.52s,
+      transform 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.52s;
+  }
+
+  .portfolio-item.item-visible .portfolio-info h3,
+  .portfolio-item.item-visible .portfolio-info span {
+    opacity: 1;
+    transform: translateY(0);
   }
 
 }
