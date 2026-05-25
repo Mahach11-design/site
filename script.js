@@ -65,79 +65,140 @@ document.querySelectorAll('.reveal').forEach(el => {
   observer.observe(el);
 });
 
-// ── SCROLL ANIMATIONS: PORTFOLIO ──
-// Только для телефонов и планшетов
+
+
+// ── MOBILE ONLY: PORTFOLIO SCROLL ANIMATIONS ──
+
 if (window.innerWidth <= 1024) {
 
-  const portfolioObserver = new IntersectionObserver((entries) => {
+  const portfolioItems =
+    document.querySelectorAll('.portfolio-item');
 
-    entries.forEach((entry, i) => {
+  function updatePortfolioAnimations() {
 
-      if (entry.isIntersecting) {
+    const windowHeight = window.innerHeight;
 
-        const item = entry.target;
+    portfolioItems.forEach(item => {
 
-        setTimeout(() => {
-          item.classList.add('mobile-active');
-        }, i * 120);
+      const rect = item.getBoundingClientRect();
 
-        portfolioObserver.unobserve(item);
+      let progress =
+        1 - ((rect.top + rect.height * 0.2) / windowHeight);
+
+      progress =
+        Math.max(0, Math.min(progress, 1));
+
+      const eased =
+        progress * progress * (3 - 2 * progress);
+
+      const bg =
+        item.querySelector('.portfolio-bg');
+
+      const info =
+        item.querySelector('.portfolio-info');
+
+      if (bg) {
+
+        const scale =
+          1 + (eased * 0.08);
+
+        const opacity =
+          0.72 + (eased * 0.28);
+
+        bg.style.transform =
+          `scale(${scale})`;
+
+        bg.style.opacity =
+          opacity;
+
+        bg.style.filter =
+          `brightness(${0.72 + eased * 0.28})`;
+      }
+
+      if (info) {
+
+        const translate =
+          60 - (eased * 60);
+
+        info.style.transform =
+          `translateY(${translate}px)`;
+
+        info.style.opacity =
+          eased;
       }
 
     });
 
-  }, { threshold: 0.25 });
+  }
 
-  document.querySelectorAll('.portfolio-item').forEach(el => {
-    portfolioObserver.observe(el);
-  });
+  window.addEventListener(
+    'scroll',
+    updatePortfolioAnimations,
+    { passive: true }
+  );
 
-}
-// ── SCROLL PROGRESS: SERVICE CARDS ──
-
-const serviceCards = document.querySelectorAll('.service-card');
-
-function updateServiceCards() {
-
-  const windowHeight = window.innerHeight;
-
-  serviceCards.forEach(card => {
-
-    const rect = card.getBoundingClientRect();
-
-    // Когда карточка входит в экран
-    const visible = 1 - (rect.top / windowHeight);
-
-    // Ограничиваем 0 → 1
-    const progress = Math.max(0, Math.min(visible, 1));
-
-    // Заполняем линию
-    card.style.setProperty('--progress', progress);
-
-    // Поднимаем карточку плавно
-    const translateY = 30 - (progress * 30);
-
-    card.style.transform = `translateY(${translateY}px)`;
-
-    // Плавное появление
-    card.style.opacity = progress;
-
-    // Номер карточки
-    const num = card.querySelector('.service-num');
-
-    if (num) {
-
-      num.style.color =
-        `rgba(196,169,109,${progress * 0.12})`;
-
-      num.style.transform =
-        `translateY(${10 - progress * 10}px)`;
-    }
-
-  });
-
+  updatePortfolioAnimations();
 }
 
-window.addEventListener('scroll', updateServiceCards);
+// ── MOBILE: SERVICE CARD PROGRESS ──
 
-updateServiceCards();
+if (window.innerWidth <= 1024) {
+
+  const serviceCards =
+    document.querySelectorAll('.service-card');
+
+  function updateServiceCards() {
+
+    const windowHeight = window.innerHeight;
+
+    serviceCards.forEach(card => {
+
+      const rect = card.getBoundingClientRect();
+
+      let progress =
+        1 - ((rect.top + rect.height * 0.15) / windowHeight);
+
+      progress =
+        Math.max(0, Math.min(progress, 1));
+
+      const eased =
+        progress * progress * (3 - 2 * progress);
+
+      card.style.setProperty(
+        '--progress',
+        eased
+      );
+
+      const translateY =
+        40 - (eased * 40);
+
+      card.style.transform =
+        `translateY(${translateY}px)`;
+
+      card.style.opacity =
+        0.3 + (eased * 0.7);
+
+      const num =
+        card.querySelector('.service-num');
+
+      if (num) {
+
+        num.style.color =
+          `rgba(196,169,109,${eased * 0.12})`;
+
+        num.style.transform =
+          `translateY(${12 - eased * 12}px)`;
+      }
+
+    });
+
+  }
+
+  window.addEventListener(
+    'scroll',
+    updateServiceCards,
+    { passive: true }
+  );
+
+  updateServiceCards();
+}
