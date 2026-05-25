@@ -286,9 +286,10 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   .btn-primary { width: 100%; text-align: center; }
   .hero-right { height: 75vw; min-height: 260px; max-height: 420px; }
   .hero-img { background-position: center center; }
-  .hero-stat { padding: 14px 10px; }
-  .hero-stat-num { font-size: 22px; }
-  .hero-stat-label { font-size: 8px; }
+  .hero-stats { flex-wrap: nowrap; }
+  .hero-stat { padding: clamp(8px, 2.5vw, 14px) clamp(4px, 1.8vw, 10px); }
+  .hero-stat-num { font-size: clamp(14px, 4.5vw, 22px); margin-bottom: 2px; }
+  .hero-stat-label { font-size: clamp(6px, 1.8vw, 8px); letter-spacing: 1px; }
 
   .about-strip { padding: 48px 20px; gap: 24px; }
   .about-strip h2 { font-size: 32px; }
