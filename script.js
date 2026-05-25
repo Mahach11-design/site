@@ -93,24 +93,51 @@ if (window.innerWidth <= 1024) {
   });
 
 }
-// ── SCROLL ANIMATIONS: SERVICE CARDS ──
-// Золотая линия и подсветка номера при скролле
-const serviceObserver = new IntersectionObserver((entries) => {
-  entries.forEach((entry, i) => {
-    if (entry.isIntersecting) {
-      const card = entry.target;
-      const num  = card.querySelector('.service-num');
-      const line = card.querySelector('.service-card-line'); // псевдо-элемент через класс
+// ── SCROLL PROGRESS: SERVICE CARDS ──
 
-      setTimeout(() => {
-        card.classList.add('scroll-active');
-        // Через 1.5s убираем анимацию — hover всё равно работает
-        setTimeout(() => card.classList.remove('scroll-active'), 1500);
-      }, i * 100);
+const serviceCards = document.querySelectorAll('.service-card');
 
-      serviceObserver.unobserve(card);
+function updateServiceCards() {
+
+  const windowHeight = window.innerHeight;
+
+  serviceCards.forEach(card => {
+
+    const rect = card.getBoundingClientRect();
+
+    // Когда карточка входит в экран
+    const visible = 1 - (rect.top / windowHeight);
+
+    // Ограничиваем 0 → 1
+    const progress = Math.max(0, Math.min(visible, 1));
+
+    // Заполняем линию
+    card.style.setProperty('--progress', progress);
+
+    // Поднимаем карточку плавно
+    const translateY = 30 - (progress * 30);
+
+    card.style.transform = `translateY(${translateY}px)`;
+
+    // Плавное появление
+    card.style.opacity = progress;
+
+    // Номер карточки
+    const num = card.querySelector('.service-num');
+
+    if (num) {
+
+      num.style.color =
+        `rgba(196,169,109,${progress * 0.12})`;
+
+      num.style.transform =
+        `translateY(${10 - progress * 10}px)`;
     }
-  });
-}, { threshold: 0.3 });
 
-document.querySelectorAll('.service-card').forEach(el => serviceObserver.observe(el));
+  });
+
+}
+
+window.addEventListener('scroll', updateServiceCards);
+
+updateServiceCards();
