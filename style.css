@@ -97,9 +97,9 @@ nav.scrolled {
 .btn-link { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--stone); text-decoration: none; font-weight: 400; border-bottom: 1px solid transparent; padding-bottom: 2px; transition: color 0.2s, border-color 0.2s; white-space: nowrap; }
 .btn-link:hover { color: var(--dark); border-color: var(--dark); }
 
-.hero-right { position: relative; overflow: hidden; background: var(--dark); }
-.hero-image-grid { position: absolute; inset: 0; display: grid; grid-template-rows: 1fr 1fr; gap: 2px; }
-.hero-img { background-size: cover; background-position: center; opacity: 0.8; }
+.hero-right { position: relative; overflow: hidden; background: var(--dark); min-height: 100vh; }
+.hero-image-grid { position: absolute; inset: 0; }
+.hero-img { position: absolute; inset: 0; background-size: cover; background-position: center 40%; background-repeat: no-repeat; opacity: 0.9; }
 .hero-overlay { position: absolute; inset: 0; background: linear-gradient(135deg, rgba(26,26,24,0.3) 0%, transparent 60%); }
 .hero-stats { position: absolute; bottom: 0; left: 0; right: 0; display: flex; background: rgba(26,26,24,0.6); backdrop-filter: blur(16px); border-top: 1px solid rgba(245,240,232,0.1); }
 .hero-stat { color: var(--cream); flex: 1; padding: 20px 16px; border-right: 1px solid rgba(245,240,232,0.1); }
@@ -128,18 +128,16 @@ nav.scrolled {
 .section-tag::before { content: ''; width: 32px; height: 1px; background: var(--gold); }
 .section-title { font-family: 'Cormorant Garamond', serif; font-size: clamp(34px, 4vw, 56px); font-weight: 300; line-height: 1.1; }
 
-/* 5 карточек: верхний ряд 3 по 1/3, нижний 2 по центру через смещение */
 .services-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2px;
   background: var(--light-stone);
 }
-/* Нижний ряд: 2 карточки со смещением на 1/6 — визуально по центру */
 .service-card:nth-child(4) { margin-left: calc(50% + 1px); }
 .service-card:nth-child(5) { margin-left: 0; }
 
-/* Чтобы нижние 2 были ровно по центру — используем отдельный подход */
+
 .services-grid {
   display: flex;
   flex-wrap: wrap;
@@ -154,7 +152,6 @@ nav.scrolled {
   transition: background 0.35s;
   box-sizing: border-box;
 }
-/* Нижний ряд 2 карточки: центруем через отступ слева */
 .service-card:nth-child(4) {
   margin-left: calc(16.666% + 1px);
 }
@@ -179,6 +176,16 @@ nav.scrolled {
 .portfolio-item:hover .portfolio-bg { transform: scale(1.06); opacity: 0.9; }
 .portfolio-info { position: absolute; bottom: 0; left: 0; right: 0; padding: 28px 32px; background: linear-gradient(transparent, rgba(26,26,24,0.88)); transform: translateY(10px); opacity: 0; transition: transform 0.3s, opacity 0.3s; }
 .portfolio-item:hover .portfolio-info { transform: translateY(0); opacity: 1; }
+/* MOBILE PORTFOLIO ANIMATION */
+.portfolio-item.mobile-active .portfolio-bg {
+  transform: scale(1.06);
+  opacity: 0.9;
+}
+
+.portfolio-item.mobile-active .portfolio-info {
+  transform: translateY(0);
+  opacity: 1;
+}
 .portfolio-info h3 { font-family: 'Cormorant Garamond', serif; font-size: 21px; font-weight: 400; color: var(--cream); margin-bottom: 4px; }
 .portfolio-info span { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--gold); }
 
@@ -213,6 +220,11 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
 .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
 
+/* Scroll-triggered: золотая линия на service-card */
+.service-card.scroll-active { background: var(--white); }
+.service-card.scroll-active::after { transform: scaleX(1); }
+.service-card.scroll-active .service-num { color: rgba(196,169,109,0.12); }
+
 /* ══ TABLET ≤1024px ══ */
 @media (max-width: 1024px) {
   nav { padding: 18px 32px; }
@@ -222,7 +234,8 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
 
   #hero { grid-template-columns: 1fr; min-height: auto; }
   .hero-left { padding: 110px 40px 56px; }
-  .hero-right { height: 55vw; min-height: 280px; max-height: 480px; }
+  .hero-right { height: 60vw; min-height: 320px; max-height: 520px; }
+  .hero-img { background-position: center 35%; }
 
   .about-strip { grid-template-columns: 1fr; gap: 28px; padding: 60px 40px; }
   .scale-banner { padding: 36px 40px; gap: 28px; }
@@ -230,7 +243,6 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   #services { padding: 80px 40px; }
   .service-card { width: calc(50% - 1px); }
   .service-card:nth-child(4) { margin-left: 0; }
-  /* На планшете 5-я карточка одна — по центру */
   .service-card:nth-child(5) { margin-left: calc(25% + 0.5px); }
 
   .portfolio-header { padding: 80px 40px 48px; }
@@ -253,7 +265,8 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
   .hero-desc { font-size: 14px; max-width: 100%; }
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 14px; }
   .btn-primary { width: 100%; text-align: center; }
-  .hero-right { height: 62vw; min-height: 220px; }
+  .hero-right { height: 75vw; min-height: 260px; max-height: 420px; }
+  .hero-img { background-position: center 40%; }
   .hero-stat { padding: 14px 10px; }
   .hero-stat-num { font-size: 22px; }
   .hero-stat-label { font-size: 8px; }
@@ -286,6 +299,7 @@ footer { background: #111110; color: var(--cream); padding: 32px 60px; display: 
 /* ══ NARROW ≤375px ══ */
 @media (max-width: 375px) {
   .hero-title { font-size: 34px; }
+  .hero-right { height: 85vw; max-height: 340px; }
   .scale-banner-text h3 { font-size: 20px; }
   .section-title { font-size: 28px; }
   .contact-centered h2 { font-size: 30px; }
