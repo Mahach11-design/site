@@ -40,16 +40,30 @@ document.addEventListener('keydown', e => {
 
 // ── REVEAL ON SCROLL ──
 const observer = new IntersectionObserver((entries) => {
+
   entries.forEach((entry, i) => {
+
     if (entry.isIntersecting) {
-      setTimeout(() => entry.target.classList.add('visible'), i * 70);
-      observer.unobserve(entry.target);
+
+      const el = entry.target;
+
+      setTimeout(() => {
+        el.classList.add('visible');
+      }, i * 120);
+
+      observer.unobserve(el);
     }
+
   });
-}, { threshold: 0.08 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+}, {
+  threshold: 0.12,
+  rootMargin: '0px 0px -40px 0px'
+});
 
+document.querySelectorAll('.reveal').forEach(el => {
+  observer.observe(el);
+});
 
 // ── SCROLL ANIMATIONS: PORTFOLIO ──
 // Только для телефонов и планшетов
